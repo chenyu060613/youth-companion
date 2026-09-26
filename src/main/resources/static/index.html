@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+    <title>青年陪伴</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep: #2F5E3E;
+            --deep-2: #3F6B4A;
+            --mid: #5E8C6B;
+            --soft: #8BAF9A;
+            --pale: #C7DCCF;
+
+            --bg: #F7F8F3;
+            --bg-warm: #F9FAF6;
+            --card: rgba(255, 255, 255, 0.78);
+            --line: rgba(47, 94, 62, 0.10);
+            --text: #31453A;
+            --text-soft: #6C7E72;
+            --shadow: 0 12px 30px rgba(78, 101, 84, 0.08);
+            --shadow-hover: 0 18px 38px rgba(78, 101, 84, 0.12);
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                    radial-gradient(circle at top left, rgba(199, 220, 207, 0.45), transparent 26%),
+                    radial-gradient(circle at bottom right, rgba(139, 175, 154, 0.18), transparent 26%),
+                    linear-gradient(180deg, #f7f8f3 0%, #f3f6f1 100%);
+            font-family:
+                    "Noto Serif SC",
+                    "Source Han Serif SC",
+                    "Songti SC",
+                    "STSong",
+                    "SimSun",
+                    serif;
+        }
+
+        .page {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 34px 0 44px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 28px;
+        }
+
+        .top-note {
+            font-size: 14px;
+            color: var(--text-soft);
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(47, 94, 62, 0.14);
+            white-space: nowrap;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 32px;
+            align-items: start;
+            margin-bottom: 38px;
+            min-height: 320px;
+        }
+
+        .hero-left {
+            padding: 24px 2px 0;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 15px;
+            color: var(--mid);
+            margin-bottom: 18px;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .eyebrow::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--soft);
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: 54px;
+            line-height: 1.30;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--deep);
+        }
+
+        .hero-title .small {
+            display: block;
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--mid);
+            margin-bottom: 14px;
+            letter-spacing: 2px;
+        }
+
+        .hero-desc {
+            margin-top: 24px;
+            max-width: 580px;
+            font-size: 18px;
+            line-height: 2;
+            color: var(--text-soft);
+        }
+
+        .hero-visual {
+            position: relative;
+            min-height: 320px;
+            border-radius: 28px;
+            overflow: hidden;
+            background:
+                    radial-gradient(circle at 72% 30%, rgba(199,220,207,0.30), transparent 18%),
+                    radial-gradient(circle at 40% 72%, rgba(139,175,154,0.16), transparent 24%),
+                    linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 100%);
+        }
+
+        .visual-plant {
+            position: absolute;
+
+            right: 36px;
+            top: 0px;
+
+            width: min(300px, 76%);
+            height: auto;
+
+            opacity: 0.22;
+
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .visual-leaf {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(139, 175, 154, 0.16);
+            filter: blur(2px);
+        }
+
+        .leaf-one {
+            width: 130px;
+            height: 130px;
+            top: 26px;
+            right: 70px;
+        }
+
+        .leaf-two {
+            width: 80px;
+            height: 80px;
+            top: 120px;
+            left: 40px;
+        }
+
+        .leaf-three {
+            width: 110px;
+            height: 110px;
+            bottom: 44px;
+            left: 120px;
+        }
+
+        .section-title {
+            margin: 8px 0 20px;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--deep-2);
+            letter-spacing: 1px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            min-height: 300px;
+            padding: 28px 24px 26px;
+            border-radius: 26px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            right: -28px;
+            bottom: -28px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            opacity: 0.32;
+        }
+
+        .card.emotion::after {
+            background: #C7DCCF;
+        }
+
+        .card.daily::after {
+            background: #AFCAB8;
+        }
+
+        .card.interest::after {
+            background: #DCE9E1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-mark {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 30px;
+            color: var(--deep);
+        }
+
+        .emotion .card-mark {
+            background: rgba(199, 220, 207, 0.92);
+        }
+
+        .daily .card-mark {
+            background: rgba(175, 202, 184, 0.92);
+        }
+
+        .interest .card-mark {
+            background: rgba(220, 233, 225, 0.96);
+        }
+
+        .card-kicker {
+            font-size: 14px;
+            color: var(--mid);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .card-title {
+            margin: 0 0 14px;
+            font-size: 34px;
+            font-weight: 600;
+            color: var(--deep);
+            letter-spacing: 1px;
+        }
+
+        .card-desc {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.95;
+            color: var(--text-soft);
+        }
+
+        .card-enter {
+            margin-top: auto;
+            padding-top: 28px;
+            font-size: 16px;
+            color: var(--deep-2);
+            letter-spacing: 0.5px;
+        }
+
+        .footer {
+            margin-top: 26px;
+            text-align: center;
+            font-size: 13px;
+            line-height: 2;
+            color: #87958b;
+        }
+
+        @media (max-width: 980px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: auto;
+            }
+
+            .hero-title {
+                font-size: 46px;
+            }
+
+            .hero-visual {
+                min-height: 240px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                width: min(100%, calc(100% - 24px));
+                padding-top: 22px;
+            }
+
+            .topbar {
+                margin-bottom: 18px;
+            }
+
+            .hero {
+                gap: 18px;
+                margin-bottom: 24px;
+            }
+
+            .hero-left {
+                padding-top: 0;
+            }
+
+            .hero-title {
+                font-size: 34px;
+                line-height: 1.5;
+            }
+
+            .hero-title .small {
+                font-size: 22px;
+                margin-bottom: 10px;
+            }
+
+            .hero-desc {
+                font-size: 15px;
+                line-height: 1.95;
+                margin-top: 18px;
+            }
+
+            .hero-visual {
+                min-height: 200px;
+                border-radius: 22px;
+            }
+
+            .visual-plant {
+                width: 210px;
+                right: 18px;
+                bottom: 12px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 16px;
+            }
+
+            .card {
+                padding: 22px 20px;
+                border-radius: 22px;
+            }
+
+            .card-title {
+                font-size: 28px;
+            }
+
+            .card-desc {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <header class="topbar">
+        <div class="top-note">
+            陪伴 · 支持 · 不催促 · 不评判
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-left">
+            <div class="eyebrow">给现在的你，留一点慢下来的空间</div>
+
+            <h1 class="hero-title">
+                <span class="small">不着急，慢慢来。</span>
+                选一个此刻更适合自己的方式，
+                从这里开始。
+            </h1>
+
+            <div class="hero-desc">
+                想聊聊情绪，安排一点生活，
+                或者做点自己愿意靠近的事情，
+                都可以先从一个温和的入口开始。
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="visual-leaf leaf-one"></div>
+            <div class="visual-leaf leaf-two"></div>
+            <div class="visual-leaf leaf-three"></div>
+
+            <!-- 四叶草剪影 -->
+            <!-- 水彩感四叶草 -->
+            <img
+                    src="/images/img.png"
+                    class="visual-plant"
+                    alt=""
+            >
+        </div>
+    </section>
+
+    <h2 class="section-title">三个入口</h2>
+
+    <section class="cards">
+
+        <a href="/emotion.html" class="card emotion">
+            <div class="card-content">
+                <div class="card-mark">✿</div>
+
+                <div class="card-kicker">随时能聊</div>
+
+                <h3 class="card-title">情绪陪伴</h3>
+
+                <p class="card-desc">
+                    想说说心情、烦恼和感受时，
+                    可以先来这里。
+                </p>
+
+                <div class="card-enter">
+                    进入情绪陪伴 →
+                </div>
+            </div>
+        </a>
+
+        <a href="/daily.html" class="card daily">
+            <div class="card-content">
+                <div class="card-mark">❀</div>
+
+                <div class="card-kicker">一起安排一点生活</div>
+
+                <h3 class="card-title">日常陪伴</h3>
+
+                <p class="card-desc">
+                    如果现在状态不太好，
+                    可以从很小的一步开始。
+                </p>
+
+                <div class="card-enter">
+                    进入日常陪伴 →
+                </div>
+            </div>
+        </a>
+
+        <a href="/interest.html" class="card interest">
+            <div class="card-content">
+                <div class="card-mark">☘</div>
+
+                <div class="card-kicker">一起做点喜欢的事</div>
+
+                <h3 class="card-title">兴趣陪伴</h3>
+
+                <p class="card-desc">
+                    找一个愿意靠近的方向，
+                    让 AI 陪你慢慢开始。
+                </p>
+
+                <div class="card-enter">
+                    进入兴趣陪伴 →
+                </div>
+            </div>
+        </a>
+
+    </section>
+
+    <div class="footer">
+        这里提供的是陪伴与信息支持，不替代专业医疗或心理治疗。<br>
+        如果当前存在立即危险，请优先使用现实中的紧急帮助。
+    </div>
+
+</div>
+
+</body>
+</html>

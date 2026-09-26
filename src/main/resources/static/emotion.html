@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>情绪陪伴</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep: #2F5E3E;
+            --deep-2: #3F6B4A;
+            --mid: #5E8C6B;
+            --soft: #8BAF9A;
+            --pale: #C7DCCF;
+
+            --bg: #F7F8F3;
+            --text: #31453A;
+            --text-soft: #718078;
+
+            --white: rgba(255,255,255,0.82);
+            --line: rgba(47,94,62,0.10);
+
+            --shadow:
+                    0 14px 36px
+                    rgba(67,92,73,0.07);
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            color: var(--text);
+
+            background:
+                    radial-gradient(
+                            circle at top left,
+                            rgba(199,220,207,0.38),
+                            transparent 25%
+                    ),
+                    radial-gradient(
+                            circle at bottom right,
+                            rgba(139,175,154,0.15),
+                            transparent 28%
+                    ),
+                    linear-gradient(
+                            180deg,
+                            #F7F8F3 0%,
+                            #F3F6F1 100%
+                    );
+
+            font-family:
+                    "Noto Serif SC",
+                    "Source Han Serif SC",
+                    "Songti SC",
+                    "STSong",
+                    "SimSun",
+                    serif;
+        }
+
+        button,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        /* =========================
+           页面
+           ========================= */
+
+        .page {
+            width: min(
+                    920px,
+                    calc(100% - 40px)
+            );
+
+            margin: 0 auto;
+
+            padding:
+                    28px
+                    0
+                    150px;
+        }
+
+
+        /* =========================
+           顶部
+           ========================= */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 46px;
+        }
+
+        .back {
+            color: var(--text-soft);
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            padding-bottom: 6px;
+
+            border-bottom:
+                    1px solid transparent;
+
+            transition: 0.2s;
+        }
+
+        .back:hover {
+            color: var(--deep);
+
+            border-bottom-color:
+                    rgba(47,94,62,0.22);
+        }
+
+        .top-note {
+            color: var(--text-soft);
+
+            font-size: 13px;
+
+            padding-bottom: 6px;
+
+            border-bottom:
+                    1px solid
+                    rgba(47,94,62,0.10);
+        }
+
+
+        /* =========================
+           开头
+           ========================= */
+
+        .intro {
+            margin-bottom: 42px;
+        }
+
+        .eyebrow {
+            position: relative;
+
+            display: inline-block;
+
+            padding-left: 12px;
+
+            margin-bottom: 16px;
+
+            color: var(--mid);
+
+            font-size: 14px;
+        }
+
+        .eyebrow::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 9px;
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--soft);
+        }
+
+        .intro h1 {
+            margin:
+                    0
+                    0
+                    16px;
+
+            color: var(--deep);
+
+            font-size: 44px;
+
+            line-height: 1.45;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+        }
+
+        .intro p {
+            margin: 0;
+
+            max-width: 660px;
+
+            color: var(--text-soft);
+
+            font-size: 16px;
+
+            line-height: 2;
+        }
+
+
+        /* =========================
+           聊天区域
+           ========================= */
+
+        .chat-panel {
+            padding: 30px;
+
+            border:
+                    1px solid
+                    rgba(47,94,62,0.08);
+
+            border-radius: 28px;
+
+            background:
+                    rgba(255,255,255,0.72);
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter:
+                    blur(12px);
+
+            -webkit-backdrop-filter:
+                    blur(12px);
+        }
+
+        .messages {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+
+            min-height: 260px;
+        }
+
+        .message-row {
+            display: flex;
+
+            width: 100%;
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+        .message-row.assistant {
+            justify-content: flex-start;
+        }
+
+        .message {
+            max-width: 76%;
+
+            padding:
+                    15px
+                    18px;
+
+            border-radius: 20px;
+
+            font-size: 15px;
+
+            line-height: 1.9;
+
+            white-space: pre-wrap;
+
+            word-break: break-word;
+        }
+
+        .message-row.assistant .message {
+            background:
+                    rgba(239,245,239,0.82);
+
+            color: #405248;
+
+            border-bottom-left-radius: 7px;
+        }
+
+        .message-row.user .message {
+            background:
+                    rgba(199,220,207,0.72);
+
+            color: #35483D;
+
+            border-bottom-right-radius: 7px;
+        }
+
+
+        /* =========================
+           输入动画
+           ========================= */
+
+        .typing {
+            display: none;
+
+            align-items: center;
+
+            gap: 7px;
+
+            width: fit-content;
+
+            margin-top: 18px;
+
+            padding:
+                    14px
+                    18px;
+
+            border-radius:
+                    18px
+                    18px
+                    18px
+                    6px;
+
+            background:
+                    rgba(239,245,239,0.82);
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--soft);
+
+            animation:
+                    dotMove
+                    1.2s
+                    infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.16s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.32s;
+        }
+
+        @keyframes dotMove {
+            0%,
+            60%,
+            100% {
+                transform:
+                        translateY(0);
+            }
+
+            30% {
+                transform:
+                        translateY(-5px);
+            }
+        }
+
+
+        /* =========================
+           concern
+           ========================= */
+
+        .concern-card {
+            display: none;
+
+            margin-top: 22px;
+
+            padding:
+                    16px
+                    18px;
+
+            border-radius: 18px;
+
+            border:
+                    1px solid
+                    rgba(125,142,104,0.16);
+
+            background:
+                    rgba(248,248,232,0.72);
+
+            color: #65705F;
+
+            font-size: 13px;
+
+            line-height: 1.9;
+        }
+
+
+        /* =========================
+           错误提示
+           ========================= */
+
+        .error-message {
+            display: none;
+
+            margin-top: 20px;
+
+            padding:
+                    15px
+                    18px;
+
+            border-radius: 16px;
+
+            background:
+                    rgba(250,238,235,0.78);
+
+            color: #815F58;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================
+           底部输入栏
+           ========================= */
+
+        .input-area {
+            position: fixed;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            padding:
+                    20px
+                    20px
+                    24px;
+
+            background:
+                    linear-gradient(
+                            to top,
+                            #F3F6F1 72%,
+                            rgba(243,246,241,0)
+                    );
+
+            z-index: 20;
+        }
+
+        .input-box {
+            width: min(
+                    820px,
+                    100%
+            );
+
+            margin: 0 auto;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 12px;
+
+            padding:
+                    10px
+                    10px
+                    10px
+                    18px;
+
+            border:
+                    1px solid
+                    rgba(47,94,62,0.08);
+
+            border-radius: 20px;
+
+            background:
+                    rgba(255,255,255,0.91);
+
+            box-shadow:
+                    0 12px 36px
+                    rgba(67,92,73,0.10);
+        }
+
+        textarea {
+            flex: 1;
+
+            resize: none;
+
+            min-height: 46px;
+            max-height: 150px;
+
+            padding:
+                    11px
+                    4px;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-size: 15px;
+
+            line-height: 1.7;
+        }
+
+        textarea::placeholder {
+            color: #A0AAA4;
+        }
+
+        .send-button {
+            width: 48px;
+            height: 48px;
+
+            flex-shrink: 0;
+
+            border: none;
+
+            border-radius: 15px;
+
+            background:
+                    var(--deep-2);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            transition: 0.2s;
+        }
+
+        .send-button:hover {
+            background:
+                    var(--deep);
+        }
+
+        .send-button:disabled {
+            opacity: 0.45;
+
+            cursor: default;
+        }
+
+        .input-note {
+            width: min(
+                    820px,
+                    100%
+            );
+
+            margin:
+                    7px
+                    auto
+                    0;
+
+            color: #98A39C;
+
+            text-align: center;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           危机弹窗
+           ========================= */
+
+        .crisis-overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 1000;
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+            background:
+                    rgba(
+                            34,
+                            49,
+                            40,
+                            0.38
+                    );
+
+            backdrop-filter:
+                    blur(5px);
+        }
+
+        .crisis-modal {
+            width: min(
+                    600px,
+                    100%
+            );
+
+            margin:
+                    5vh
+                    auto;
+
+            padding: 34px;
+
+            border:
+                    1px solid
+                    rgba(47,94,62,0.08);
+
+            border-radius: 28px;
+
+            background:
+                    #F9FAF6;
+
+            box-shadow:
+                    0 28px 80px
+                    rgba(36,58,44,0.20);
+        }
+
+        .crisis-label {
+            margin-bottom: 12px;
+
+            color: var(--mid);
+
+            font-size: 13px;
+        }
+
+        .crisis-modal h2 {
+            margin:
+                    0
+                    0
+                    16px;
+
+            color: var(--deep);
+
+            font-size: 28px;
+
+            font-weight: 600;
+
+            line-height: 1.6;
+        }
+
+        .crisis-intro {
+            margin-bottom: 22px;
+
+            color: var(--text-soft);
+
+            font-size: 14px;
+
+            line-height: 1.95;
+        }
+
+        .safety-steps {
+            margin-bottom: 22px;
+
+            padding:
+                    18px
+                    20px;
+
+            border-radius: 18px;
+
+            background:
+                    rgba(226,237,226,0.58);
+
+            color: #526158;
+
+            font-size: 14px;
+
+            line-height: 2;
+        }
+
+        .help-number {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+
+            padding:
+                    16px
+                    18px;
+
+            margin-bottom: 10px;
+
+            border-radius: 16px;
+
+            border:
+                    1px solid
+                    rgba(47,94,62,0.08);
+
+            background:
+                    rgba(255,255,255,0.70);
+        }
+
+        .number-name {
+            margin-bottom: 4px;
+
+            color: #425248;
+
+            font-size: 14px;
+        }
+
+        .number-description {
+            color: #89948E;
+
+            font-size: 12px;
+        }
+
+        .number-link {
+            color: var(--deep);
+
+            text-decoration: none;
+
+            font-size: 21px;
+
+            font-weight: 600;
+        }
+
+        .crisis-actions {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            margin-top: 24px;
+        }
+
+        .crisis-primary,
+        .crisis-secondary {
+            padding:
+                    13px
+                    18px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        .crisis-primary {
+            background:
+                    var(--deep-2);
+
+            color: white;
+        }
+
+        .crisis-secondary {
+            background:
+                    #E8EEE8;
+
+            color: #526158;
+        }
+
+        .crisis-note {
+            margin-top: 18px;
+
+            color: #98A29C;
+
+            font-size: 11px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================
+           手机
+           ========================= */
+
+        @media(max-width: 650px) {
+
+            .page {
+                width:
+                        min(
+                                100%,
+                                calc(100% - 24px)
+                        );
+
+                padding-top: 20px;
+            }
+
+            .topbar {
+                margin-bottom: 32px;
+            }
+
+            .top-note {
+                display: none;
+            }
+
+            .intro h1 {
+                font-size: 32px;
+            }
+
+            .intro p {
+                font-size: 14px;
+            }
+
+            .chat-panel {
+                padding:
+                        22px
+                        16px;
+
+                border-radius: 22px;
+            }
+
+            .message {
+                max-width: 88%;
+
+                font-size: 14px;
+            }
+
+            .crisis-modal {
+                margin-top: 2vh;
+
+                padding:
+                        24px
+                        20px;
+            }
+
+            .help-number {
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <header class="topbar">
+
+        <a
+                href="/"
+                class="back"
+        >
+            ← 回到首页
+        </a>
+
+        <div class="top-note">
+            随时能聊 · 不催促 · 不评判
+        </div>
+
+    </header>
+
+
+    <section class="intro">
+
+        <div class="eyebrow">
+            留一点空间给现在的感受
+        </div>
+
+        <h1>
+            想说什么，<br>
+            都可以慢慢来。
+        </h1>
+
+        <p>
+            不需要先想好怎么表达。
+            一句话、一个感受，甚至只是“今天有点难受”，
+            都可以从这里开始。
+        </p>
+
+    </section>
+
+
+    <section class="chat-panel">
+
+        <div
+                id="messages"
+                class="messages"
+        >
+
+            <div class="message-row assistant">
+
+                <div class="message">
+                    我在。你可以先说现在最想说的那一点，不需要整理得很完整。
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+                id="typing"
+                class="typing"
+        >
+
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+
+        </div>
+
+
+        <div
+                id="concernCard"
+                class="concern-card"
+        >
+            你刚才提到的内容让我有些在意你的安全。
+            如果你觉得自己近期可能会伤害自己，
+            可以先去到有其他人在的地方，并联系一个你信任的人。
+        </div>
+
+
+        <div
+                id="errorMessage"
+                class="error-message"
+        >
+            刚才没有成功连接到服务。
+            你的消息还在，可以稍后再试一次。
+        </div>
+
+    </section>
+
+</div>
+
+
+<div class="input-area">
+
+    <div class="input-box">
+
+        <textarea
+                id="messageInput"
+                rows="1"
+                maxlength="3000"
+                placeholder="想说什么都可以……"
+        ></textarea>
+
+        <button
+                id="sendButton"
+                class="send-button"
+                onclick="sendMessage()"
+                aria-label="发送"
+        >
+            ↑
+        </button>
+
+    </div>
+
+    <div class="input-note">
+        AI陪伴不能替代专业医疗或心理治疗
+    </div>
+
+</div>
+
+
+
+<!-- 危机求助 -->
+
+<div
+        id="crisisOverlay"
+        class="crisis-overlay"
+>
+
+    <div class="crisis-modal">
+
+        <div class="crisis-label">
+            先照顾现在的安全
+        </div>
+
+        <h2>
+            现在尽量不要一个人扛着。
+        </h2>
+
+        <div class="crisis-intro">
+
+            你刚才说的内容让我担心，
+            你现在可能会伤害自己。
+
+            如果危险正在发生，
+            先不用解决所有事情。
+            现在只处理接下来几分钟的安全。
+
+        </div>
+
+
+        <div class="safety-steps">
+
+            尽量去到有其他人在的地方。<br>
+
+            联系一个你信任的人，
+            可以是家人、朋友、老师或其他可信任的成年人。<br>
+
+            如果身边有可能伤害自己的物品，
+            尽量先和它们拉开距离。<br>
+
+            如果已经受伤、服用了可能有危险的物质，
+            或感觉自己马上可能行动，
+            请立即寻求现实中的紧急帮助。
+
+        </div>
+
+
+        <div class="help-number">
+
+            <div>
+                <div class="number-name">
+                    全国统一心理援助热线
+                </div>
+
+                <div class="number-description">
+                    心理支持、心理疏导与危机干预
+                </div>
+            </div>
+
+            <a
+                    href="tel:12356"
+                    class="number-link"
+            >
+                12356
+            </a>
+
+        </div>
+
+
+        <div class="help-number">
+
+            <div>
+                <div class="number-name">
+                    医疗急救
+                </div>
+
+                <div class="number-description">
+                    已受伤或需要紧急医疗支持
+                </div>
+            </div>
+
+            <a
+                    href="tel:120"
+                    class="number-link"
+            >
+                120
+            </a>
+
+        </div>
+
+
+        <div class="help-number">
+
+            <div>
+                <div class="number-name">
+                    报警求助
+                </div>
+
+                <div class="number-description">
+                    当前人身安全受到威胁
+                </div>
+            </div>
+
+            <a
+                    href="tel:110"
+                    class="number-link"
+            >
+                110
+            </a>
+
+        </div>
+
+
+        <div class="crisis-actions">
+
+            <button
+                    class="crisis-primary"
+                    onclick="closeCrisisModal()"
+            >
+                继续和我说
+            </button>
+
+            <button
+                    class="crisis-secondary"
+                    onclick="closeCrisisModal()"
+            >
+                暂时关闭求助信息
+            </button>
+
+        </div>
+
+
+        <div class="crisis-note">
+            AI不能代替紧急医疗、公安或专业心理危机服务。
+            如果当前存在立即危险，请优先使用现实中的帮助。
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const conversation = [];
+
+    let sending = false;
+
+
+    const input =
+        document.getElementById(
+            "messageInput"
+        );
+
+
+    input.addEventListener(
+        "input",
+        function () {
+
+            this.style.height =
+                "auto";
+
+
+            this.style.height =
+                Math.min(
+                    this.scrollHeight,
+                    150
+                )
+                + "px";
+        }
+    );
+
+
+    input.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Enter"
+                &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                sendMessage();
+            }
+        }
+    );
+
+
+    async function sendMessage() {
+
+        if (sending) {
+            return;
+        }
+
+
+        const content =
+            input.value.trim();
+
+
+        if (!content) {
+            return;
+        }
+
+
+        hideError();
+
+
+        appendMessage(
+            "user",
+            content
+        );
+
+
+        conversation.push({
+            role: "user",
+            content: content
+        });
+
+
+        input.value = "";
+
+        input.style.height =
+            "auto";
+
+
+        setSending(true);
+
+        showTyping();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/chat",
+                    {
+                        method:
+                            "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                messages:
+                                    conversation
+                                        .slice(-12)
+                            })
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP "
+                    +
+                    response.status
+                );
+            }
+
+
+            const data =
+                await response.json();
+
+
+            hideTyping();
+
+
+            appendMessage(
+                "assistant",
+                data.reply
+            );
+
+
+            conversation.push({
+                role: "assistant",
+                content: data.reply
+            });
+
+
+            handleRisk(
+                data
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "发送失败：",
+                error
+            );
+
+
+            hideTyping();
+
+            showError();
+
+        } finally {
+
+            setSending(false);
+
+            input.focus();
+        }
+    }
+
+
+    function appendMessage(
+        role,
+        content
+    ) {
+
+        const messages =
+            document.getElementById(
+                "messages"
+            );
+
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+
+        row.className =
+            "message-row "
+            +
+            role;
+
+
+        const bubble =
+            document.createElement(
+                "div"
+            );
+
+
+        bubble.className =
+            "message";
+
+
+        bubble.textContent =
+            content;
+
+
+        row.appendChild(
+            bubble
+        );
+
+
+        messages.appendChild(
+            row
+        );
+
+
+        scrollToBottom();
+    }
+
+
+    function handleRisk(
+        data
+    ) {
+
+        const concernCard =
+            document.getElementById(
+                "concernCard"
+            );
+
+
+        concernCard.style.display =
+            data.riskLevel === "concern"
+                ?
+                "block"
+                :
+                "none";
+
+
+        if (
+            data.showCrisisModal === true
+        ) {
+
+            openCrisisModal();
+        }
+    }
+
+
+    function openCrisisModal() {
+
+        document.getElementById(
+            "crisisOverlay"
+        ).style.display =
+            "block";
+
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+    function closeCrisisModal() {
+
+        document.getElementById(
+            "crisisOverlay"
+        ).style.display =
+            "none";
+
+
+        document.body.style.overflow =
+            "";
+
+
+        input.focus();
+    }
+
+
+    function showTyping() {
+
+        document.getElementById(
+            "typing"
+        ).style.display =
+            "flex";
+
+
+        scrollToBottom();
+    }
+
+
+    function hideTyping() {
+
+        document.getElementById(
+            "typing"
+        ).style.display =
+            "none";
+    }
+
+
+    function setSending(
+        value
+    ) {
+
+        sending =
+            value;
+
+
+        document.getElementById(
+            "sendButton"
+        ).disabled =
+            value;
+    }
+
+
+    function showError() {
+
+        document.getElementById(
+            "errorMessage"
+        ).style.display =
+            "block";
+
+
+        scrollToBottom();
+    }
+
+
+    function hideError() {
+
+        document.getElementById(
+            "errorMessage"
+        ).style.display =
+            "none";
+    }
+
+
+    function scrollToBottom() {
+
+        setTimeout(
+            function () {
+
+                window.scrollTo({
+                    top:
+                    document.body
+                        .scrollHeight,
+
+                    behavior:
+                        "smooth"
+                });
+
+            },
+            50
+        );
+    }
+
+</script>
+
+
+</body>
+</html>

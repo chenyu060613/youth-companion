@@ -1,0 +1,2935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>日常陪伴</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        :root {
+            --deep: #2F5E3E;
+            --deep-2: #3F6B4A;
+            --mid: #5E8C6B;
+            --soft: #8BAF9A;
+            --pale: #C7DCCF;
+
+            --bg: #F7F8F3;
+
+            --text: #31453A;
+            --text-soft: #718078;
+
+            --line:
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.09
+                    );
+
+            --shadow:
+                    0 14px 36px
+                    rgba(
+                            67,
+                            92,
+                            73,
+                            0.07
+                    );
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            min-height: 100vh;
+
+            color: var(--text);
+
+            background:
+                    radial-gradient(
+                            circle at top left,
+                            rgba(199, 220, 207, 0.38),
+                            transparent 25%
+                    ),
+                    radial-gradient(
+                            circle at bottom right,
+                            rgba(139, 175, 154, 0.15),
+                            transparent 28%
+                    ),
+                    linear-gradient(
+                            180deg,
+                            #F7F8F3 0%,
+                            #F3F6F1 100%
+                    );
+
+            font-family:
+                    "Noto Serif SC",
+                    "Source Han Serif SC",
+                    "Songti SC",
+                    "STSong",
+                    "SimSun",
+                    serif;
+        }
+
+
+        button,
+        textarea {
+            font-family: inherit;
+        }
+
+
+
+        /* =========================
+           页面
+           ========================= */
+
+        .page {
+            width: min(
+                    920px,
+                    calc(100% - 40px)
+            );
+
+            margin: 0 auto;
+
+            padding:
+                    28px
+                    0
+                    150px;
+        }
+
+
+
+        /* =========================
+           顶部
+           ========================= */
+
+        .topbar {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 46px;
+        }
+
+
+        .back {
+            color: var(--text-soft);
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            padding-bottom: 6px;
+
+            border-bottom:
+                    1px solid transparent;
+
+            transition: 0.2s;
+        }
+
+
+        .back:hover {
+            color: var(--deep);
+
+            border-bottom-color:
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.22
+                    );
+        }
+
+
+        .top-note {
+            color: var(--text-soft);
+
+            font-size: 13px;
+
+            padding-bottom: 6px;
+
+            border-bottom:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.10
+                    );
+        }
+
+
+
+        /* =========================
+           开头
+           ========================= */
+
+        .intro {
+            margin-bottom: 34px;
+        }
+
+
+        .eyebrow {
+            position: relative;
+
+            display: inline-block;
+
+            padding-left: 12px;
+
+            margin-bottom: 16px;
+
+            color: var(--mid);
+
+            font-size: 14px;
+        }
+
+
+        .eyebrow::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 9px;
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background:
+                    var(--soft);
+        }
+
+
+        .intro h1 {
+            margin:
+                    0
+                    0
+                    16px;
+
+            color: var(--deep);
+
+            font-size: 44px;
+
+            line-height: 1.45;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+        }
+
+
+        .intro p {
+            margin: 0;
+
+            max-width: 710px;
+
+            color: var(--text-soft);
+
+            font-size: 16px;
+
+            line-height: 2;
+        }
+
+
+
+        /* =========================
+           快捷入口
+           ========================= */
+
+        .quick-actions {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .quick-button {
+            padding:
+                    10px
+                    14px;
+
+            border:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.09
+                    );
+
+            border-radius: 999px;
+
+            background:
+                    rgba(
+                            255,
+                            255,
+                            255,
+                            0.68
+                    );
+
+            color: var(--mid);
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            transition:
+                    background 0.2s,
+                    color 0.2s,
+                    transform 0.2s;
+        }
+
+
+        .quick-button:hover {
+            background:
+                    rgba(
+                            238,
+                            245,
+                            237,
+                            0.92
+                    );
+
+            color: var(--deep);
+
+            transform:
+                    translateY(-1px);
+        }
+
+
+
+        /* =========================
+           聊天主体
+           ========================= */
+
+        .chat-panel {
+            padding:
+                    28px;
+
+            border:
+                    1px solid var(--line);
+
+            border-radius: 28px;
+
+            background:
+                    rgba(
+                            255,
+                            255,
+                            255,
+                            0.72
+                    );
+
+            box-shadow:
+                    var(--shadow);
+        }
+
+
+        .messages {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+
+            min-height: 170px;
+        }
+
+
+        .message-row {
+            display: flex;
+        }
+
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+
+        .message-row.assistant {
+            justify-content: flex-start;
+        }
+
+
+        .message {
+            max-width: 78%;
+
+            padding:
+                    14px
+                    18px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            line-height: 1.9;
+
+            white-space: pre-wrap;
+
+            word-break: break-word;
+        }
+
+
+        .message-row.assistant
+        .message {
+            background:
+                    rgba(
+                            239,
+                            245,
+                            239,
+                            0.86
+                    );
+
+            color: #405248;
+
+            border-bottom-left-radius:
+                    7px;
+        }
+
+
+        .message-row.user
+        .message {
+            background:
+                    rgba(
+                            199,
+                            220,
+                            207,
+                            0.72
+                    );
+
+            color: #35483D;
+
+            border-bottom-right-radius:
+                    7px;
+        }
+
+
+
+        /* =========================
+           AI思考
+           ========================= */
+
+        .typing {
+            display: none;
+
+            margin-top: 18px;
+
+            color: var(--soft);
+
+            font-size: 13px;
+        }
+
+
+
+        /* =========================
+           日程区域
+           ========================= */
+
+        .plan-section {
+            display: none;
+
+            position: relative;
+
+            margin-top: 28px;
+
+            padding:
+                    24px
+                    24px
+                    25px;
+
+            overflow: hidden;
+
+            border:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.09
+                    );
+
+            border-radius: 22px;
+
+            background:
+                    rgba(
+                            238,
+                            245,
+                            237,
+                            0.73
+                    );
+        }
+
+
+        .plan-section::after {
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            right: -48px;
+            bottom: -55px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(
+                            199,
+                            220,
+                            207,
+                            0.24
+                    );
+
+            pointer-events: none;
+        }
+
+
+        .plan-eyebrow {
+            position: relative;
+
+            z-index: 1;
+
+            margin-bottom: 8px;
+
+            color: var(--soft);
+
+            font-size: 12px;
+        }
+
+
+        .plan-title {
+            position: relative;
+
+            z-index: 1;
+
+            margin-bottom: 19px;
+
+            color: var(--deep);
+
+            font-size: 19px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .plan-list {
+            position: relative;
+
+            z-index: 1;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 0;
+        }
+
+
+        .plan-item {
+            display: flex;
+
+            gap: 15px;
+
+            padding:
+                    12px
+                    0;
+
+            color: #506158;
+
+            font-size: 14px;
+
+            line-height: 1.9;
+
+            border-bottom:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.065
+                    );
+        }
+
+
+        .plan-item:last-child {
+            border-bottom: none;
+        }
+
+
+        .plan-number {
+            width: 27px;
+            height: 27px;
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            margin-top: 1px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(
+                            199,
+                            220,
+                            207,
+                            0.68
+                    );
+
+            color: var(--deep-2);
+
+            font-size: 12px;
+        }
+
+
+        .plan-content {
+            flex: 1;
+        }
+
+
+
+        /* =========================
+           推荐动作
+           ========================= */
+
+        .recommendation-section {
+            display: none;
+
+            margin-top: 30px;
+        }
+
+
+        .recommendation-head {
+            margin-bottom: 15px;
+        }
+
+
+        .recommendation-label {
+            margin-bottom: 5px;
+
+            color: var(--mid);
+
+            font-size: 14px;
+        }
+
+
+        .recommendation-hint {
+            display: none;
+
+            color: #929D96;
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+
+        .recommendation-grid {
+            display: grid;
+
+            grid-template-columns:
+                    repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+
+        .recommendation-card {
+            position: relative;
+
+            min-height: 158px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            padding:
+                    19px;
+
+            overflow: hidden;
+
+            border:
+                    1px solid var(--line);
+
+            border-radius: 20px;
+
+            background:
+                    rgba(
+                            250,
+                            251,
+                            248,
+                            0.94
+                    );
+
+            color: #46584D;
+
+            transition:
+                    transform 0.2s,
+                    border-color 0.2s,
+                    background 0.2s;
+        }
+
+
+        .recommendation-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 72px;
+            height: 72px;
+
+            right: -25px;
+            bottom: -26px;
+
+            border-radius: 50%;
+
+            background:
+                    rgba(
+                            199,
+                            220,
+                            207,
+                            0.22
+                    );
+        }
+
+
+        .recommendation-card:hover {
+            transform:
+                    translateY(-2px);
+
+            border-color:
+                    rgba(
+                            94,
+                            140,
+                            107,
+                            0.20
+                    );
+
+            background:
+                    rgba(
+                            248,
+                            251,
+                            246,
+                            1
+                    );
+        }
+
+
+        .recommendation-text {
+            position: relative;
+
+            z-index: 1;
+
+            font-size: 14px;
+
+            line-height: 1.9;
+        }
+
+
+        .recommendation-action {
+            position: relative;
+
+            z-index: 1;
+
+            align-self: flex-start;
+
+            margin-top: 18px;
+
+            padding: 0;
+
+            border: none;
+
+            border-bottom:
+                    1px solid transparent;
+
+            background: transparent;
+
+            color: var(--mid);
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            transition: 0.2s;
+        }
+
+
+        .recommendation-action:hover {
+            color: var(--deep);
+
+            border-bottom-color:
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.18
+                    );
+        }
+
+
+
+        /* =========================
+           concern
+           ========================= */
+
+        .concern-card {
+            display: none;
+
+            margin-top: 20px;
+
+            padding:
+                    15px
+                    18px;
+
+            border-radius: 17px;
+
+            background:
+                    rgba(
+                            248,
+                            248,
+                            232,
+                            0.74
+                    );
+
+            color: #65705F;
+
+            font-size: 13px;
+
+            line-height: 1.9;
+        }
+
+
+
+        /* =========================
+           错误
+           ========================= */
+
+        .error-box {
+            display: none;
+
+            margin-top: 20px;
+
+            padding:
+                    15px
+                    18px;
+
+            border-radius: 16px;
+
+            background:
+                    rgba(
+                            250,
+                            238,
+                            235,
+                            0.76
+                    );
+
+            color: #815F58;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+
+
+        /* =========================
+           输入区域
+           ========================= */
+
+        .input-area {
+            position: fixed;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            z-index: 20;
+
+            padding:
+                    20px
+                    20px
+                    24px;
+
+            background:
+                    linear-gradient(
+                            to top,
+                            #F3F6F1 72%,
+                            rgba(
+                                    243,
+                                    246,
+                                    241,
+                                    0
+                            )
+                    );
+        }
+
+
+        .input-box {
+            width: min(
+                    820px,
+                    100%
+            );
+
+            margin: 0 auto;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 12px;
+
+            padding:
+                    10px
+                    10px
+                    10px
+                    18px;
+
+            border:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.08
+                    );
+
+            border-radius: 20px;
+
+            background:
+                    rgba(
+                            255,
+                            255,
+                            255,
+                            0.92
+                    );
+
+            box-shadow:
+                    0 12px 36px
+                    rgba(
+                            67,
+                            92,
+                            73,
+                            0.10
+                    );
+        }
+
+
+        #messageInput {
+            flex: 1;
+
+            resize: none;
+
+            min-height: 46px;
+            max-height: 150px;
+
+            padding:
+                    11px
+                    4px;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        #messageInput::placeholder {
+            color: #A0AAA4;
+        }
+
+
+        .send-button {
+            width: 48px;
+            height: 48px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            flex-shrink: 0;
+
+            background:
+                    var(--deep-2);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            transition:
+                    background 0.2s,
+                    opacity 0.2s;
+        }
+
+
+        .send-button:hover {
+            background:
+                    var(--deep);
+        }
+
+
+        .send-button:disabled {
+            opacity: 0.45;
+
+            cursor: default;
+        }
+
+
+
+        /* =========================
+           危机弹窗
+           ========================= */
+
+        .crisis-overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 1000;
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+            background:
+                    rgba(
+                            34,
+                            49,
+                            40,
+                            0.38
+                    );
+
+            backdrop-filter:
+                    blur(5px);
+        }
+
+
+        .crisis-modal {
+            width: min(
+                    600px,
+                    100%
+            );
+
+            margin:
+                    5vh
+                    auto;
+
+            padding:
+                    34px;
+
+            border:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.07
+                    );
+
+            border-radius: 28px;
+
+            background:
+                    #F9FAF6;
+
+            box-shadow:
+                    0 28px 80px
+                    rgba(
+                            36,
+                            58,
+                            44,
+                            0.20
+                    );
+        }
+
+
+        .crisis-label {
+            margin-bottom: 12px;
+
+            color: var(--mid);
+
+            font-size: 13px;
+        }
+
+
+        .crisis-modal h2 {
+            margin:
+                    0
+                    0
+                    16px;
+
+            color: var(--deep);
+
+            font-size: 28px;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+        }
+
+
+        .crisis-intro {
+            margin-bottom: 22px;
+
+            color: var(--text-soft);
+
+            font-size: 14px;
+
+            line-height: 1.95;
+        }
+
+
+        .safety-steps {
+            margin-bottom: 22px;
+
+            padding:
+                    18px
+                    20px;
+
+            border-radius: 18px;
+
+            background:
+                    rgba(
+                            226,
+                            237,
+                            226,
+                            0.58
+                    );
+
+            color: #526158;
+
+            font-size: 14px;
+
+            line-height: 2;
+        }
+
+
+        .help-number {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+
+            padding:
+                    16px
+                    18px;
+
+            margin-bottom: 10px;
+
+            border:
+                    1px solid
+                    rgba(
+                            47,
+                            94,
+                            62,
+                            0.06
+                    );
+
+            border-radius: 16px;
+
+            background:
+                    rgba(
+                            255,
+                            255,
+                            255,
+                            0.72
+                    );
+        }
+
+
+        .number-name {
+            color: #425248;
+
+            font-size: 14px;
+        }
+
+
+        .number-description {
+            margin-top: 4px;
+
+            color: #89948E;
+
+            font-size: 12px;
+        }
+
+
+        .number-link {
+            color: var(--deep);
+
+            text-decoration: none;
+
+            font-size: 21px;
+
+            font-weight: 600;
+        }
+
+
+        .crisis-actions {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            margin-top: 24px;
+        }
+
+
+        .crisis-primary,
+        .crisis-secondary {
+            padding:
+                    13px
+                    18px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            font-family: inherit;
+        }
+
+
+        .crisis-primary {
+            background:
+                    var(--deep-2);
+
+            color: white;
+        }
+
+
+        .crisis-secondary {
+            background:
+                    #E8EEE8;
+
+            color: #526158;
+        }
+
+
+
+        /* =========================
+           平板
+           ========================= */
+
+        @media(max-width: 750px) {
+
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .recommendation-card {
+                min-height: 120px;
+            }
+
+        }
+
+
+
+        /* =========================
+           手机
+           ========================= */
+
+        @media(max-width: 620px) {
+
+            .page {
+                width:
+                        min(
+                                100%,
+                                calc(100% - 24px)
+                        );
+
+                padding-top: 20px;
+
+                padding-bottom: 145px;
+            }
+
+
+            .topbar {
+                margin-bottom: 32px;
+            }
+
+
+            .top-note {
+                display: none;
+            }
+
+
+            .intro h1 {
+                font-size: 32px;
+            }
+
+
+            .intro p {
+                font-size: 14px;
+            }
+
+
+            .quick-actions {
+                gap: 8px;
+            }
+
+
+            .quick-button {
+                font-size: 12px;
+            }
+
+
+            .chat-panel {
+                padding:
+                        22px
+                        16px;
+            }
+
+
+            .message {
+                max-width: 88%;
+            }
+
+
+            .plan-section {
+                padding:
+                        20px
+                        18px;
+            }
+
+
+            .input-area {
+                padding:
+                        15px
+                        12px
+                        18px;
+            }
+
+
+            .help-number {
+                align-items: flex-start;
+            }
+
+
+            .crisis-modal {
+                margin-top: 2vh;
+
+                padding:
+                        25px
+                        20px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- 顶部 -->
+
+    <header class="topbar">
+
+        <a
+                href="/"
+                class="back"
+        >
+            ← 回到首页
+        </a>
+
+
+        <div class="top-note">
+            一起安排一点生活 · 不打卡 · 不催促
+        </div>
+
+    </header>
+
+
+
+    <!-- 页面开头 -->
+
+    <section class="intro">
+
+        <div class="eyebrow">
+            不用先判断自己属于哪一种状态
+        </div>
+
+
+        <h1>
+            先说说今天怎么样，<br>
+            我们再决定从哪里开始。
+        </h1>
+
+
+        <p>
+            可以告诉我现在最卡住的事情，
+            也可以直接说今天有哪些必须处理的任务。
+            我们可以一起把事情拆小一点，也给休息留一点位置。
+        </p>
+
+    </section>
+
+
+
+    <!-- 快捷入口 -->
+
+    <div class="quick-actions">
+
+        <button
+                class="quick-button"
+                onclick="useQuickMessage(
+                    '我现在很乱，不知道先做什么。'
+                )"
+        >
+            我现在很乱
+        </button>
+
+
+        <button
+                class="quick-button"
+                onclick="useQuickMessage(
+                    '帮我推荐一个现在能做的很小的动作。'
+                )"
+        >
+            给我一个小动作
+        </button>
+
+
+        <button
+                class="quick-button"
+                onclick="useQuickMessage(
+                    '帮我轻轻安排一下今天接下来怎么过，不要安排太满。'
+                )"
+        >
+            帮我安排今天
+        </button>
+
+
+        <button
+                class="quick-button"
+                onclick="useQuickMessage(
+                    '我今天有几件必须做的事情，想请你帮我拆开安排一下。'
+                )"
+        >
+            我有任务要完成
+        </button>
+
+
+        <button
+                class="quick-button"
+                onclick="useQuickMessage(
+                    '我想一步一步来，你先只告诉我现在做什么。'
+                )"
+        >
+            一步一步陪我
+        </button>
+
+    </div>
+
+
+
+    <!-- 聊天区 -->
+
+    <section
+            id="chatPanel"
+            class="chat-panel"
+    >
+
+
+        <!-- 消息 -->
+
+        <div
+                id="messages"
+                class="messages"
+        >
+
+            <div class="message-row assistant">
+
+                <div class="message">
+                    今天不用先把事情都想好。你可以告诉我现在最卡住的是哪一点，或者今天有哪些事情需要完成。
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- AI思考 -->
+
+        <div
+                id="typing"
+                class="typing"
+        >
+            正在帮你把事情理得轻一点……
+        </div>
+
+
+
+        <!--
+             日程
+
+             注意：
+             task_plan 时故意放在推荐卡片前面。
+        -->
+
+        <section
+                id="planSection"
+                class="plan-section"
+        >
+
+            <div
+                    id="planEyebrow"
+                    class="plan-eyebrow"
+            >
+                给今天留一点余地
+            </div>
+
+
+            <div
+                    id="planTitle"
+                    class="plan-title"
+            >
+                今天可以先这样过
+            </div>
+
+
+            <div
+                    id="planList"
+                    class="plan-list"
+            >
+            </div>
+
+        </section>
+
+
+
+        <!-- 推荐动作 -->
+
+        <section
+                id="recommendationSection"
+                class="recommendation-section"
+        >
+
+            <div class="recommendation-head">
+
+                <div
+                        id="recommendationLabel"
+                        class="recommendation-label"
+                >
+                    可以从下面选一个最没有压力的
+                </div>
+
+
+                <div
+                        id="recommendationHint"
+                        class="recommendation-hint"
+                >
+                </div>
+
+            </div>
+
+
+            <div
+                    id="recommendationGrid"
+                    class="recommendation-grid"
+            >
+            </div>
+
+        </section>
+
+
+
+        <!-- concern -->
+
+        <div
+                id="concernCard"
+                class="concern-card"
+        >
+            你刚才提到的内容让我有些在意你的安全。
+            如果你感觉自己近期可能会伤害自己，
+            可以先去到有其他人在的地方，并联系一个你信任的人。
+        </div>
+
+
+
+        <!-- 错误 -->
+
+        <div
+                id="errorBox"
+                class="error-box"
+        >
+            刚才没有成功连接到服务，可以稍后再试一次。
+        </div>
+
+
+    </section>
+
+</div>
+
+
+
+<!-- 固定输入框 -->
+
+<div class="input-area">
+
+    <div class="input-box">
+
+        <textarea
+                id="messageInput"
+                rows="1"
+                maxlength="3000"
+                placeholder="说说现在的状态、今天的任务，或者接下来想怎么过……"
+        ></textarea>
+
+
+        <button
+                id="sendButton"
+                class="send-button"
+                onclick="sendMessage()"
+                aria-label="发送"
+        >
+            ↑
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- 危机弹窗 -->
+
+<div
+        id="crisisOverlay"
+        class="crisis-overlay"
+>
+
+    <div class="crisis-modal">
+
+
+        <div class="crisis-label">
+            先照顾现在的安全
+        </div>
+
+
+        <h2>
+            现在尽量不要一个人扛着。
+        </h2>
+
+
+        <div class="crisis-intro">
+            你刚才说的内容让我担心你现在可能会伤害自己。
+            如果危险正在发生，先不用安排今天的事情，
+            现在只处理接下来几分钟的安全。
+        </div>
+
+
+        <div class="safety-steps">
+
+            尽量去到有其他人在的地方。<br>
+
+            联系一个你信任的人，
+            可以是家人、朋友、老师或其他可信任的成年人。<br>
+
+            如果身边有可能伤害自己的物品，
+            尽量先和它们拉开距离。<br>
+
+            如果已经受伤或感觉自己马上可能行动，
+            请立即寻求现实中的紧急帮助。
+
+        </div>
+
+
+
+        <div class="help-number">
+
+            <div>
+
+                <div class="number-name">
+                    全国统一心理援助热线
+                </div>
+
+                <div class="number-description">
+                    心理支持与危机干预
+                </div>
+
+            </div>
+
+
+            <a
+                    href="tel:12356"
+                    class="number-link"
+            >
+                12356
+            </a>
+
+        </div>
+
+
+
+        <div class="help-number">
+
+            <div>
+
+                <div class="number-name">
+                    医疗急救
+                </div>
+
+                <div class="number-description">
+                    已受伤或需要紧急医疗帮助
+                </div>
+
+            </div>
+
+
+            <a
+                    href="tel:120"
+                    class="number-link"
+            >
+                120
+            </a>
+
+        </div>
+
+
+
+        <div class="help-number">
+
+            <div>
+
+                <div class="number-name">
+                    报警求助
+                </div>
+
+                <div class="number-description">
+                    当前人身安全受到威胁
+                </div>
+
+            </div>
+
+
+            <a
+                    href="tel:110"
+                    class="number-link"
+            >
+                110
+            </a>
+
+        </div>
+
+
+
+        <div class="crisis-actions">
+
+            <button
+                    class="crisis-primary"
+                    onclick="closeCrisisModal()"
+            >
+                继续和我说
+            </button>
+
+
+            <button
+                    class="crisis-secondary"
+                    onclick="closeCrisisModal()"
+            >
+                暂时关闭求助信息
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    /*
+     * ==========================================
+     * 状态
+     * ==========================================
+     */
+
+    let conversation = [];
+
+    let sending = false;
+
+    let currentMode = null;
+
+
+
+    const input =
+        document.getElementById(
+            "messageInput"
+        );
+
+
+
+    /*
+     * ==========================================
+     * 输入框自动高度
+     * ==========================================
+     */
+
+    input.addEventListener(
+        "input",
+        function () {
+
+            this.style.height =
+                "auto";
+
+
+            this.style.height =
+                Math.min(
+                    this.scrollHeight,
+                    150
+                )
+                +
+                "px";
+        }
+    );
+
+
+
+    /*
+     * Enter发送
+     * Shift + Enter换行
+     */
+
+    input.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Enter"
+                &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                sendMessage();
+            }
+        }
+    );
+
+
+
+    /*
+     * ==========================================
+     * 快捷消息
+     * ==========================================
+     */
+
+    function useQuickMessage(
+        text
+    ) {
+
+        if (sending) {
+            return;
+        }
+
+
+        input.value =
+            text;
+
+
+        sendMessage();
+    }
+
+
+
+    /*
+     * ==========================================
+     * 发送消息
+     * ==========================================
+     */
+
+    async function sendMessage() {
+
+        if (sending) {
+            return;
+        }
+
+
+        const content =
+            input.value.trim();
+
+
+        if (!content) {
+            return;
+        }
+
+
+
+        hideError();
+
+
+
+        /*
+         * 用户消息
+         */
+
+        appendMessage(
+            "user",
+            content
+        );
+
+
+        conversation.push({
+
+            role:
+                "user",
+
+            content:
+            content
+        });
+
+
+
+        /*
+         * 清空输入
+         */
+
+        input.value =
+            "";
+
+        input.style.height =
+            "auto";
+
+
+
+        /*
+         * UI状态
+         */
+
+        setSending(
+            true
+        );
+
+
+        showTyping();
+
+
+        /*
+         * 新一轮回答时，
+         * 先收起上一轮建议。
+         */
+
+        hideResultPanels();
+
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/daily-chat",
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                messages:
+                                    conversation
+                                        .slice(-16)
+                            })
+                    }
+                );
+
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP "
+                    +
+                    response.status
+                );
+            }
+
+
+
+            const data =
+                await response.json();
+
+
+
+            hideTyping();
+
+
+
+            /*
+             * AI文字回复
+             */
+
+            appendMessage(
+                "assistant",
+                data.reply
+            );
+
+
+            conversation.push({
+
+                role:
+                    "assistant",
+
+                content:
+                data.reply
+            });
+
+
+
+            /*
+             * 保存当前模式
+             */
+
+            currentMode =
+                data.mode;
+
+
+
+            /*
+             * =====================================
+             * 安全
+             * =====================================
+             */
+
+            document.getElementById(
+                "concernCard"
+            ).style.display =
+                data.riskLevel ===
+                "concern"
+                    ?
+                    "block"
+                    :
+                    "none";
+
+
+
+            if (
+                data.showCrisisModal ===
+                true
+            ) {
+
+                openCrisisModal();
+
+                return;
+            }
+
+
+
+            /*
+             * =====================================
+             * 根据 mode 改文案
+             * =====================================
+             */
+
+            updateResultCopy(
+                data.mode
+            );
+
+
+
+            /*
+             * =====================================
+             * 先渲染日程
+             *
+             * task_plan 时：
+             *
+             * 用户先看到自己的任务
+             * 如何被重新组织，
+             *
+             * 再看到下面的最小启动动作。
+             * =====================================
+             */
+
+            if (
+                Array.isArray(
+                    data.plan
+                )
+                &&
+                data.plan.length > 0
+            ) {
+
+                renderPlan(
+                    data.plan,
+                    data.mode
+                );
+            }
+
+
+
+            /*
+             * =====================================
+             * 再渲染推荐卡片
+             * =====================================
+             */
+
+            if (
+                Array.isArray(
+                    data.recommendations
+                )
+                &&
+                data.recommendations.length > 0
+            ) {
+
+                renderRecommendations(
+                    data.recommendations,
+                    data.mode
+                );
+            }
+
+
+
+            /*
+             * 如果出现计划或推荐，
+             * 滚到结果区域附近。
+             */
+
+            if (
+                (
+                    Array.isArray(
+                        data.plan
+                    )
+                    &&
+                    data.plan.length > 0
+                )
+                ||
+                (
+                    Array.isArray(
+                        data.recommendations
+                    )
+                    &&
+                    data.recommendations.length > 0
+                )
+            ) {
+
+                scrollResultsIntoView();
+            }
+
+
+
+        } catch (error) {
+
+            console.error(
+                "日常陪伴请求失败：",
+                error
+            );
+
+
+            hideTyping();
+
+            showError();
+
+
+        } finally {
+
+            setSending(
+                false
+            );
+
+
+            input.focus();
+        }
+    }
+
+
+
+    /*
+     * ==========================================
+     * 根据模式修改区域文案
+     * ==========================================
+     */
+
+    function updateResultCopy(
+        mode
+    ) {
+
+        const planEyebrow =
+            document.getElementById(
+                "planEyebrow"
+            );
+
+
+        const planTitle =
+            document.getElementById(
+                "planTitle"
+            );
+
+
+        const recommendationLabel =
+            document.getElementById(
+                "recommendationLabel"
+            );
+
+
+        const recommendationHint =
+            document.getElementById(
+                "recommendationHint"
+            );
+
+
+
+        /*
+         * 用户已经有自己的任务
+         */
+
+        if (
+            mode === "task_plan"
+        ) {
+
+            planEyebrow.textContent =
+                "保留要做的事情，也给恢复留一点位置";
+
+
+            planTitle.textContent =
+                "把今天的任务拆轻一点";
+
+
+            recommendationLabel.textContent =
+                "可以先从自己的任务里，选一个最容易开始的小动作";
+
+
+            recommendationHint.textContent =
+                "不用想着一次完成全部，先让第一步发生就好。";
+
+
+            recommendationHint.style.display =
+                "block";
+
+
+            return;
+        }
+
+
+
+        /*
+         * 普通日程
+         */
+
+        if (
+            mode === "daily_plan"
+        ) {
+
+            planEyebrow.textContent =
+                "不用把时间排得很满";
+
+
+            planTitle.textContent =
+                "今天可以先这样过";
+
+
+            recommendationLabel.textContent =
+                "可以从下面选一个最舒服的开始";
+
+
+            recommendationHint.style.display =
+                "none";
+
+
+            return;
+        }
+
+
+
+        /*
+         * 一步一步
+         */
+
+        if (
+            mode === "guided_step"
+        ) {
+
+            planEyebrow.textContent =
+                "先只看眼前这一小步";
+
+
+            planTitle.textContent =
+                "不用想后面的事情";
+
+
+            recommendationLabel.textContent =
+                "现在先只做这一小步";
+
+
+            recommendationHint.textContent =
+                "做完以后再回来，我们再看下一步。";
+
+
+            recommendationHint.style.display =
+                "block";
+
+
+            return;
+        }
+
+
+
+        /*
+         * micro_action
+         */
+
+        planEyebrow.textContent =
+            "先从最轻的地方开始";
+
+
+        planTitle.textContent =
+            "今天可以不用做很多";
+
+
+        recommendationLabel.textContent =
+            "可以从下面选一个最没有压力的";
+
+
+        recommendationHint.style.display =
+            "none";
+    }
+
+
+
+    /*
+     * ==========================================
+     * 消息气泡
+     * ==========================================
+     */
+
+    function appendMessage(
+        role,
+        content
+    ) {
+
+        const container =
+            document.getElementById(
+                "messages"
+            );
+
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+
+        row.className =
+            "message-row "
+            +
+            role;
+
+
+
+        const bubble =
+            document.createElement(
+                "div"
+            );
+
+
+        bubble.className =
+            "message";
+
+
+        /*
+         * 使用 textContent，
+         * 不直接插入用户HTML。
+         */
+        bubble.textContent =
+            content;
+
+
+
+        row.appendChild(
+            bubble
+        );
+
+
+        container.appendChild(
+            row
+        );
+
+
+        scrollBottom();
+    }
+
+
+
+    /*
+     * ==========================================
+     * 渲染日程
+     * ==========================================
+     */
+
+    function renderPlan(
+        plan,
+        mode
+    ) {
+
+        const section =
+            document.getElementById(
+                "planSection"
+            );
+
+
+        const list =
+            document.getElementById(
+                "planList"
+            );
+
+
+        list.innerHTML =
+            "";
+
+
+
+        plan.forEach(
+            function (
+                text,
+                index
+            ) {
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "plan-item";
+
+
+
+                const number =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                number.className =
+                    "plan-number";
+
+
+                number.textContent =
+                    String(
+                        index + 1
+                    );
+
+
+
+                const content =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                content.className =
+                    "plan-content";
+
+
+                content.textContent =
+                    text;
+
+
+
+                item.appendChild(
+                    number
+                );
+
+
+                item.appendChild(
+                    content
+                );
+
+
+                list.appendChild(
+                    item
+                );
+            }
+        );
+
+
+        section.style.display =
+            "block";
+    }
+
+
+
+    /*
+     * ==========================================
+     * 渲染推荐卡片
+     * ==========================================
+     */
+
+    function renderRecommendations(
+        recommendations,
+        mode
+    ) {
+
+        const section =
+            document.getElementById(
+                "recommendationSection"
+            );
+
+
+        const grid =
+            document.getElementById(
+                "recommendationGrid"
+            );
+
+
+        grid.innerHTML =
+            "";
+
+
+
+        recommendations.forEach(
+            function (text) {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "recommendation-card";
+
+
+
+                const content =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                content.className =
+                    "recommendation-text";
+
+
+                content.textContent =
+                    text;
+
+
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.className =
+                    "recommendation-action";
+
+
+
+                /*
+                 * task_plan 的卡片代表
+                 * 用户真实任务的最小启动动作。
+                 */
+
+                if (
+                    mode === "task_plan"
+                ) {
+
+                    button.textContent =
+                        "把这个作为第一步 →";
+
+                } else if (
+                    mode === "guided_step"
+                ) {
+
+                    button.textContent =
+                        "就先做这个 →";
+
+                } else {
+
+                    button.textContent =
+                        "陪我做这个 →";
+                }
+
+
+
+                button.onclick =
+                    function () {
+
+                        chooseRecommendation(
+                            text,
+                            mode
+                        );
+                    };
+
+
+
+                card.appendChild(
+                    content
+                );
+
+
+                card.appendChild(
+                    button
+                );
+
+
+                grid.appendChild(
+                    card
+                );
+            }
+        );
+
+
+        section.style.display =
+            "block";
+    }
+
+
+
+    /*
+     * ==========================================
+     * 选择一个推荐
+     * ==========================================
+     */
+
+    function chooseRecommendation(
+        text,
+        mode
+    ) {
+
+        /*
+         * task_plan：
+         *
+         * 不直接把用户切换成一个
+         * 与任务无关的随机行动。
+         *
+         * 先把这个真实任务
+         * 填入输入框，
+         * 用户可以直接发送，
+         * 也可以再补充一句。
+         */
+
+        if (
+            mode === "task_plan"
+        ) {
+
+            input.value =
+                "我想先从这个开始："
+                +
+                text;
+
+
+            input.style.height =
+                "auto";
+
+
+            input.style.height =
+                Math.min(
+                    input.scrollHeight,
+                    150
+                )
+                +
+                "px";
+
+
+            input.focus();
+
+
+            return;
+        }
+
+
+
+        /*
+         * 普通行动：
+         * 直接请求一步一步陪做。
+         */
+
+        input.value =
+            "我想做这个："
+            +
+            text
+            +
+            "。你一步一步陪我开始。";
+
+
+        sendMessage();
+    }
+
+
+
+    /*
+     * ==========================================
+     * 隐藏旧结果
+     * ==========================================
+     */
+
+    function hideResultPanels() {
+
+        document.getElementById(
+            "recommendationSection"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "planSection"
+        ).style.display =
+            "none";
+    }
+
+
+
+    /*
+     * ==========================================
+     * AI加载
+     * ==========================================
+     */
+
+    function showTyping() {
+
+        document.getElementById(
+            "typing"
+        ).style.display =
+            "block";
+    }
+
+
+    function hideTyping() {
+
+        document.getElementById(
+            "typing"
+        ).style.display =
+            "none";
+    }
+
+
+
+    /*
+     * ==========================================
+     * 发送状态
+     * ==========================================
+     */
+
+    function setSending(
+        value
+    ) {
+
+        sending =
+            value;
+
+
+        document.getElementById(
+            "sendButton"
+        ).disabled =
+            value;
+    }
+
+
+
+    /*
+     * ==========================================
+     * 错误
+     * ==========================================
+     */
+
+    function showError() {
+
+        document.getElementById(
+            "errorBox"
+        ).style.display =
+            "block";
+    }
+
+
+    function hideError() {
+
+        document.getElementById(
+            "errorBox"
+        ).style.display =
+            "none";
+    }
+
+
+
+    /*
+     * ==========================================
+     * 危机弹窗
+     * ==========================================
+     */
+
+    function openCrisisModal() {
+
+        document.getElementById(
+            "crisisOverlay"
+        ).style.display =
+            "block";
+
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+
+    function closeCrisisModal() {
+
+        document.getElementById(
+            "crisisOverlay"
+        ).style.display =
+            "none";
+
+
+        document.body.style.overflow =
+            "";
+
+
+        input.focus();
+    }
+
+
+
+    /*
+     * ==========================================
+     * 滚动
+     * ==========================================
+     */
+
+    function scrollBottom() {
+
+        setTimeout(
+            function () {
+
+                window.scrollTo({
+
+                    top:
+                    document.body
+                        .scrollHeight,
+
+                    behavior:
+                        "smooth"
+                });
+
+            },
+            50
+        );
+    }
+
+
+
+    function scrollResultsIntoView() {
+
+        setTimeout(
+            function () {
+
+                const planSection =
+                    document.getElementById(
+                        "planSection"
+                    );
+
+
+                const recommendationSection =
+                    document.getElementById(
+                        "recommendationSection"
+                    );
+
+
+                /*
+                 * 有计划优先滚到计划。
+                 */
+                if (
+                    planSection.style.display ===
+                    "block"
+                ) {
+
+                    planSection.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "center"
+                    });
+
+
+                    return;
+                }
+
+
+                if (
+                    recommendationSection.style.display ===
+                    "block"
+                ) {
+
+                    recommendationSection.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "center"
+                    });
+                }
+
+            },
+            120
+        );
+    }
+
+</script>
+
+
+</body>
+</html>

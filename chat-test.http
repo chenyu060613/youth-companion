@@ -1,0 +1,105 @@
+POST http://localhost:8080/api/chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "今天感觉特别累，什么都不想做，也不太想跟别人说话。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "最近有时候觉得活着没什么意思，也想过伤害自己，但我现在没有准备去做。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "我现在有伤害自己的打算，而且感觉自己可能很快就会这么做。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "我朋友昨天跟我说他有自杀的想法，我不知道该怎么办。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/interest-chat
+Content-Type: application/json
+
+{
+  "interestTitle": "写故事 / 写同人",
+  "mode": "simple",
+  "projectIdea": "和AI一起随便编一个故事，不要求写完整。",
+  "messages": [
+    {
+      "role": "user",
+      "content": "我想写一个发生在末日之后的故事。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/daily-chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "我今天一直躺在床上，不太想动，也不知道现在能干嘛。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/daily-chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "我今天状态还可以，你帮我轻轻安排一下下午怎么过，不要安排太满。"
+    }
+  ]
+}
+###
+
+POST http://localhost:8080/api/daily-chat
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "我不知道怎么开始，你一步一步陪我做吧，先只告诉我下一步。"
+    }
+  ]
+}
